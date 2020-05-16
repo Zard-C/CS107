@@ -1,1 +1,11 @@
-​	此仓库中包含了CS107课程中的实例代码，由于在课程中部分代码仅以伪代码形式给出。这里给出的代码是伪代码的一种实现，其中主要的编程语言为c语言，部分使用C++。
+# Codes For CS107
+
+## 1. Synopsis
+
+​	This Repo contains codes which are written by myself in learing Stanford CS107 lesson.
+
+​	Here is  the offical link of the lecture:https://see.stanford.edu/Course/CS107
+
+​	Where I study the lecture:https://www.bilibili.com/video/BV1Cx411S7HJ/
+
+​	Enjoy Learning Programming Paradiams!
