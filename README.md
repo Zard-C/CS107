@@ -8,4 +8,4 @@
 
 ​	Where I study the lecture:https://www.bilibili.com/video/BV1Cx411S7HJ/
 
-​	Enjoy Learning Programming Paradiams!
+​	Enjoy Learning Programming Paradigm!
