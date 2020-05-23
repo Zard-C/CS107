@@ -2,7 +2,7 @@
 
 ## 1. Synopsis
 
-​	This Repo contains codes which are written by myself in learing Stanford CS107 lesson.
+​	This Repo contains codes which are written by myself in learing Stanford CS107 lecture.
 
 ​	Here is  the offical link of the lecture:https://see.stanford.edu/Course/CS107
 
