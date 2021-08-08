@@ -1,4 +1,4 @@
-# Lec 05  & Lec 06 & Lec 07
+# Lec 5 -7
 
 在没有类，模板的情况下实现通用数据结构
 
@@ -77,11 +77,12 @@ int stackPop(Stack * s)
 ```
 
 1. 将结构体看成黑盒，不直接使用使用函数来操纵结构体成员变量。
-2. 在c++中可以有privtae关键字指出类中的成员是私有的。不能被外部访问，但是在c中整个结构体都暴露在外，任何人都可以访问，在c++中struct和class都可以声明一个类。区别在于struct声明的类成员变量默认是public而class声明的成员变量默认时private。写一万个文档来指出它的内部结构不可见。
+2. 在c++中可以有privtae关键字指出类中的成员是私有的。不能被外部访问，但是在c中整个结构体都暴露在外，任何人都可以访问，在c++中struct和class都可以声明一个类。区别在于struct声明的类成员变量默认是public而class声明的成员变量默认是private。作者需要写一个文档来指出它的内部结构不可见。
 3. 申请的空间不够时，使用加倍策略要重新向操作系统申请空间，并将之前的数据复制过来，再进行新数据的拷贝。
 4. 通过传入待操作的数据结构进行操作。
 
 ```c
+// realloc 函数
 void* realloc(void*, size_t);
 
  The realloc() function tries to change the size of the allocation pointed to by ptr to size,  and returns ptr.  If there is not enough room to enlarge the memory allocation pointed to by ptr, realloc() creates a new allocation, copies as much of the old data pointed to by ptr as will fit to the new allocation, frees the old allocation, and returns a pointer to the allocated memory.  If ptr is NULL, realloc() is identical to a call to malloc() for size bytes.  If size is zero and ptr is not NULL, a new, minimum sized object is allocated and the original object is freed.  When extending a region allocated with calloc(3), realloc(3) does not guarantee that the additional memory is also zero-filled. 
@@ -99,12 +100,12 @@ void* realloc(void*, size_t);
 // stack.h 
 typedef struct 
 {
-		void *elems; 
+	void *elems; 
   	int elemSize;
   	int loglength;
   	int allocLength;
   	void (*freefn)(void*); 
-}stack
+}stack;
 
 void stackNew(stack * s, int elemSize);
 void stackDispose(stack * s); 
@@ -134,7 +135,7 @@ void stackDispose(stack *s )
         }
     }
  
-  	free(s->elems); // ?   
+  	free(s->elems);   
 }
 
 void stackPush(stack *s, void *elemAddr)
@@ -163,9 +164,6 @@ void stackPop(stack *s, void *elemAddr)
   	s->logLength --;
 }
 
-
-
-
 ```
 
 - 动态申请空间的函数，它也有对偶的函数来负责这些空间的释放工作。
@@ -191,7 +189,7 @@ int main()
   
   	for(int i = 0; i < 3; ++i)
     {
-      char ** names = NULL;
+      	char ** names = NULL;
       	stackPop(&StringStack, &names); 
     }
   	stackDispose(&StringStack); // elems 中的元素应该如何处理？freefn!
@@ -222,7 +220,7 @@ void rotate(void* front, void *middle, void * end)
  void qsort(void *base, size_t nel, size_t width, int (*compar)(const void *, const void *));
 ```
 
-### 2.3 malloc, free 的实现
+
 
 查看编译器生成的汇编代码：
 
