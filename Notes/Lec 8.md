@@ -50,7 +50,7 @@ int* arr = malloc(100*sizeof(int));	// 404 or 408 bytes
 free(arr + 60);
 ```
 
-​	![heap3](Untitled.assets/heap3-8495390.png)
+​	![heap3](lec8.assets/heap3.png)
 
 ​	将这个地址传给free，free的实现可能非常原始并且不进行错误检查合法性。malloc，free，realloc都是本着尽可能快速执行的原则实现的，因此不会对传入的地址进行检查。因为它们都假设你是非常擅长C和C++编程的。因此不会在调用时进行错误检查。 
 
