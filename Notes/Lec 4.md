@@ -77,11 +77,11 @@ swap(husband, &wife, sizeof(char*));
 
 - correct 
 
-<img src="/Users/zhangtonghe/Library/Application Support/typora-user-images/截屏2021-01-30 上午2.02.27.png" alt="截屏2021-01-30 上午2.02.27" style="zoom: 50%;" />
+<img src="lec4.assets/截屏2021-01-30 上午2.02.27.png" alt="截屏2021-01-30 上午2.02.27" style="zoom: 50%;" />
 
 - Wrong but won't crash 
 
-<img src="/Users/zhangtonghe/Library/Application Support/typora-user-images/截屏2021-01-30 上午2.05.48.png" alt="截屏2021-01-30 上午2.05.48" style="zoom:50%;" />
+<img src="lec4.assets/截屏2021-01-30 上午2.05.48.png" alt="截屏2021-01-30 上午2.05.48" style="zoom:50%;" />
 
 - Wrong and probably crash
 
