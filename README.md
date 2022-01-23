@@ -1,6 +1,6 @@
 # Codes For CS107
 
-## 1. Synopsis
+## 1. Was Ist Das? 
 
 ​	This Repo contains codes which are written by myself in learing Stanford CS107 lecture.
 
