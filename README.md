@@ -1,6 +1,7 @@
 # Codes For CS107
 
-## About this repo
+## 1. Was Ist Das? 
+>>>>>>> branch1
 
 ​	This Repo contains codes and notes which are written by myself while learing Stanford CS107 lecture.
 
