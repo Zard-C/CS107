@@ -28,7 +28,7 @@ void foo(int bar, int* baz)	// 这些变量在哪里？
 
 foo函数的活动记录如下：
 
-![image-20220207232133311](Lec 10.assets/image-20220207232133311.png)
+<img src="Lec 10.assets/image-20220207232133311.png"/>
 
 为何函数参数按照从右向左的顺序而从高地址向低地址存放。
 
