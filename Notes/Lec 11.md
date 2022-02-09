@@ -145,7 +145,7 @@ int &z = y; 	// int占用的内存并不大。
 
 ​	这个图和实际的编译代码的方式相关，因为编译器最终将为z留出的空间，与y的地址联系了起来。
 
-![Lec 10-1.drawio](Lec 11.assets/Lec 10-1.drawio.png)
+<img src = "Lec 11.assets/Lec 10-1.drawio.png"/>
 
 
 
@@ -156,4 +156,7 @@ int y = 17;
 int *z = &y;
 ```
 
-![Lec 10-2.drawio](Lec 11.assets/Lec 10-2.drawio.png)
+<img src = "Lec 11.assets/Lec 10-2.drawio.png"/>
+
+
+
