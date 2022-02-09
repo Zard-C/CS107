@@ -28,7 +28,7 @@ void foo(int bar, int* baz)	// 这些变量在哪里？
 
 foo函数的活动记录如下：
 
-<img src="Lec 10.assets/image-20220207232133311.png" style="zoom: 50%;" />
+![Lec10-1.drawio](Lec 10.assets/Lec10-1.drawio.png)
 
 为何函数参数按照从右向左的顺序而从高地址向低地址存放。
 
@@ -50,9 +50,7 @@ int main(int argc, char** argv)
 
 开始时，main函数的活动记录如下：
 
-<img src="Lec 10.assets/image-20220208075810582.png" style="zoom:50%;" />
-
-
+![Lec10-2.drawio](Lec 10.assets/Lec10-2.drawio.png)
 
 首先，编译器要生成为局部变量申请空间的代码，只有从main函数实现中，才知道需要有多少局部变量来实现函数试图完成的功能。
 
@@ -69,7 +67,9 @@ M[SP] = 4;		// 初始化 i
 
 为什么是-4呢？因为这里的局部变量i的size = 4；
 
-<img src = "Lec 10.assets/image-20220208080710341.png" style="zoom:50%;" />
+![Lec10-3.drawio](Lec 10.assets/Lec10-3.drawio.png)
+
+
 
 这里的边界，即SP指向的位置，就是栈中已使用内存和未使用内存的边界。
 
@@ -83,7 +83,7 @@ M[SP] = R1; 			// 初始化参数 bar
 M[SP + 4] = R2; 		// 初始化参数 baz
 ```
 
-<img src = "Lec 10.assets/image-20220208081334556.png" style="zoom:50%;" />
+![Lec10-4.drawio](Lec 10.assets/Lec10-4.drawio.png)
 
 
 
@@ -148,7 +148,7 @@ RET;				// 将saved PC 中的值取出，放到PC寄存器中，并且让SP + 4�
 
 首先要为局部变量申请空间，从而完成整个活动记录
 
-<img src = "Lec 10.assets/image-20220208091407754.png" style="zoom: 50%;" />
+![Lec10-5.drawio](Lec 10.assets/Lec10-5.drawio.png)
 
 然后通过load - alu - store 操作内存
 
@@ -176,9 +176,9 @@ RV可以看作是一个专门用来放置返回信息的地方。
 
 **函数活动记录-两个部分，分开负责**
 
+![Lec10-6.drawio](Lec 10.assets/Lec10-6.drawio.png)
 
-
-<img src = "Lec 10.assets/image-20220208123442221.png"/> 
+ 
 
 ​	为什么将函数的活动记录分成两个部分，由调用者和被调用函数分别完成，而不能让调用函数来完成整个事情呢？ 
 
