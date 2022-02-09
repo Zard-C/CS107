@@ -25,7 +25,9 @@ j++;  			// 3
 
 **活动记录**
 
-<img src="Lec 9.assets/image-20220123190526222.png" alt="image-20220123190526222" style="zoom:50%;" />
+<img src = "Lec 9.assets/Lec09-1.drawio.png" style="zoom:67%;" />
+
+
 
 R1 是一个通用的4字节位模式寄存器 generic 4-byte bit pattern register, 在这里用来记录活动记录的基地址。
 
@@ -99,7 +101,7 @@ s2 = s1 + 1; // 3
 
 **活动记录**
 
-<img src="Lec 9.assets/image-20220123195249009.png" alt="image-20220123195249009" style="zoom:33%;" />
+<img src = "Lec 9.assets/Lec09-2.drawio.png" style="zoom: 67%;" />
 
 看起来有些奇怪，不过因为s2是三个声明中的最后一个。根据内存模型，它应该是对应着最低的基地址。
 
@@ -246,7 +248,7 @@ M[R1 - 20] = R19; 	// 4. store  111111 maybe
 
 假设op code 对应着语句1 
 
-<img src="Lec 9.assets/image-20220123220616278.png" alt="image-20220123220616278" style="zoom:33%;" />
+<img src = "Lec 9.assets/Lec09-3.drawio.png"/>
 
 前6位是操作码，5位是等号左边的寄存器编号，5位是等号右侧基地址寄存器的编号。剩下16位存放常量。
 
@@ -258,7 +260,9 @@ M[R1 - 20] = R19; 	// 4. store  111111 maybe
 
 ## 2. 指针和强制类型转换
 
-![image-20220207224653249](Lec 9.assets/image-20220207224653249.png)
+<img src = "Lec 9.assets/Lec09-4.drawio.png" style="zoom:67%;" />
+
+
 
 ​	这块空间逻辑上对应的就是变量pi，在本课程中，寄存器R1 存储的就是这个变量的基地址，并且知道这个变量怎样拆分成更小的原子类型。
 
