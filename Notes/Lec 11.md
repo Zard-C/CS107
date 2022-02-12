@@ -361,7 +361,7 @@ magic number 的概念，#define将一个名称和一个magic number联系了起
 #define kHeight 720anx 
 
 printf("Width is %d\n", kWidth); 
-int area = kWidth*Kheight; 
+int area = kWidth*kHeight; 
 ```
 
 编译器只是进行简单的文本替换，不知道这代表着什么内容。到了编译阶段时，编译器会发现这个错误并停止编译。
