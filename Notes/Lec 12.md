@@ -217,3 +217,74 @@ Q&A 为啥不include .cpp
 不过不同的预处理器可以对标准的预处理器指令进行任意的扩展。可能会见到#ifdef, #ifndef 等等，但是只需要熟悉#include 和 #define就可以了。如果你知道这些指令是在预处理阶段被执行，并且这些指令意味着很多的扩展信息。 
 
 ## 3. 编译，汇编与链接的过程
+
+![image-20220214092015818](Lec 12.assets/image-20220214092015818.png)
+
+preprocessing 
+
+在这个阶段进行了多个文件的展开，因此函数原型，结构体定义，类定义，以及#define宏，#define的常量都会只出现一次。只需要声明一次，就可以在任何地方使用
+
+compiling 编译阶段
+
+编译器会讲这个文本流逐字输入，并将它编译生成对应的汇编代码，只要编译时不产生任何错误，就会生成.o文件。如果编译器发现某个错误的话，会进行报错。通常可能会得到很多错误。你也可以自行设置让编译器遇到一个错误之后就停下来。
+
+因此这个vector.c文件默认会产生一个vector.o文件，这里就都是汇编代码了，你会看到load-alu-store语句，call语句，jmp语句等等。这些代码模拟了翻译单元中所有函数和方法的实现。
+
+关于编译和链接，一个稍微复杂的例子-基于gcc
+
+编译阶段做了什么
+
+```c
+#include <stdio.h> 			// printf
+#include <stdlib.h>			// malloc, free 
+#include <assert.h> 		// assert marco 
+
+int main(int argc, char** argv)
+{
+	void* meomory = malloc(400); 
+	assert(memory != NULL);
+	printf("Yay!\n"); 
+	free(memory); 
+	
+	return 0; 
+}
+```
+
+将这个.c文件传给gcc
+
+```shell
+gcc main.c 
+```
+
+预处理之后main.c会扩展成很大的一个文本流。 预处理器获取源文件并生成一个更长的没有#include，#define的文本流并交给gcc编译器编译生成.o文件
+
+最后生成一个,o文件，经过替换翻译单元编译后得到的。
+
+```assembly
+## .o file part of 
+
+CALL <malloc> 
+
+CALL <fprintf> 		# 这个是assert宏展开后有的函数，所以会有这个函数调用
+
+CALL <printf> 
+
+
+CALL <free> 
+
+RV = 0;
+RET;
+```
+
+为何没有`CALL <assert>` ？ 因为assert不是函数，assert.h中定义了替换assert的方式，所以在预处理阶段就被替换成了表达式。所以在预处理之后就没有了assert这个符号了，所以编译器根本不会看到assert这个符号，更不会把它当成函数调用。
+
+但是assert展开之后会有fprintf，所以在编译时会看到fprintf的调用，进而在.o文件中有所体现`CALL<fprintf>` 
+
+这是一个简单且能够正常运转的程序，虽然程序没有什么太深的含义，但是它甚至使用了free防止内存泄漏的发生，我们感兴趣的是：如果我们将其中的某个include注释掉，代码还能顺利通过编译吗？
+
+如果在makefile中没有指定编译选项，那么gcc会继续编译之后的流程，并且生成可执行文件。默认情况下，可执行文件名是a.out
+
+```shell
+gcc -c main.c 
+```
+
