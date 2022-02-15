@@ -31,7 +31,7 @@ int main(int argc, char** argv)
 gcc main.c 
 ```
 
-![image-20220214200120343](Lec 13.assets/image-20220214200120343.png)
+<img src = "Lec 13.assets/image-20220214200120343.png"/>
 
 程序生成汇编代码，并由链接器进行重组。这个例子中只有一个.o文件，其他部分来自于编译器标准库或标准的.o代码，标准的编译器会提供printf，malloc, free, realloc, fprintf以及类似函数对应的.o代码进行链接。通常编译器会将一些必要的代码一个接着一个放置，生成一个更大的可执行文件。并且去掉那些没有用到的部分。但是一定会保留那些在执行过程中可能出现的函数。并且可执行程序在运行时应该能够跳转到程序的任意位置。
 
@@ -196,7 +196,7 @@ int strlen(char*, int);	//	 推导出来的函数原型
 
 活动记录
 
-![image-20220215092410164](Lec 13.assets/image-20220215092410164.png)
+<img src = "Lec 13.assets/Lec13-01.drawio.png" style="zoom:67%;" />
 
 调用strlen时相应地会创建活动记录，并为调用参数预留空间，但是其实这里是推测的原型，因此编译器在编译的时候会认为：ok，虽然我不知道我调用的是什么，但是根据这个调用，应该执行`SP = SP - 8	`,然后将num的地址放到SP，由于使用了强制类型转换，所以编译器会将它视为字符串。并且将65放到SP + 4处。
 
@@ -210,7 +210,9 @@ int strlen(char*, int);	//	 推导出来的函数原型
 
 在运行时，会从这个位置跳转到strlen，strlen会接着这个活动记录继续执行，真正的strlen实现中其实只有一个char*类型的参数。因此相应的汇编代码只会对这部分进行操作，
 
-![image-20220215093253911](Lec 13.assets/image-20220215093253911.png)
+<img src = "Lec 13.assets/Lec13-02.drawio.png" style="zoom:67%;" />
+
+
 
 并且strlen能够操作的只有这一部分的内存，这个函数中有for循环，并且将返回值放到RV中。为什么这里的65就被忽略了呢？因为strlen只有一个char* 参数，并不能访问到65所在的位置。
 
@@ -236,11 +238,15 @@ int main()
 
 在little-endian机器上，输出1，这里的65就是字符‘A'。
 
-![image-20220215201323587](Lec 13.assets/image-20220215201323587.png)
+<img src = "Lec 13.assets/Lec13-03.drawio.png" style="zoom: 67%;" />
+
+
 
 在big-endian机器上，输出0，strlen认为这个指针指向的是栈中的空字符串。
 
-![image-20220215201218034](Lec 13.assets/image-20220215201218034.png)
+<img src = "Lec 13.assets/Lec13-04.drawio.png" style="zoom:67%;" />
+
+
 
 还是尽量不要手写原型，而是使用#include头文件的形式，原型的错误会发生上述的事情。
 
@@ -270,7 +276,9 @@ int main()
 int memcmp(const void *s1, const void *s2, size_t n);
 ```
 
-![image-20220215202801670](Lec 13.assets/image-20220215202801670.png)
+<img src = "Lec 13.assets/Lec13-05.drawio.png" style="zoom:67%;" />
+
+ 
 
 首先声明变量并赋值为17； 
 
@@ -381,7 +389,7 @@ int main(int argc, char** argv)
 
 抽象内存模型：函数的的调用返回方式和实际的内存模型是很相似的。
 
-![image-20220215235645042](Lec 13.assets/image-20220215235645042.png)
+<img src = "Lec 13.assets/Lec13-06.drawio.png" style="zoom:67%;" />
 
 这个启动函数负责将命令行中的argv字符串数组的内容进行统计，计算出这些字符串的个数，将这个结果作为argv参数传递给main函数。
 
@@ -418,15 +426,15 @@ int main(int argc, char** argv)
 
 **内存布局**
 
-![image-20220216000643532](Lec 13.assets/image-20220216000643532.png)
+<img src = "Lec 13.assets/Lec13-07.drawio.png" style="zoom:67%;" />
 
 在big-endian系统中，可以正常结束循环并退出。
 
-![image-20220216000832349](Lec 13.assets/image-20220216000832349.png)
+<img src = "Lec 13.assets/Lec13-08.drawio.png" style="zoom:67%;" />
 
 在little-endian系统中，会出现dead-loop
 
-![image-20220216001001725](Lec 13.assets/image-20220216001001725.png)
+<img src = "Lec 13.assets/Lec13-09.drawio.png" style="zoom:67%;" />
 
 ### 更高级的infinite-loop
 
@@ -442,7 +450,11 @@ void foo()
 }
 ```
 
- ![image-20220216001343705](Lec 13.assets/image-20220216001343705.png)
+内存布局
+
+<img src = "Lec 13.assets/Lec13-10.drawio.png" style="zoom:67%;" />
+
+
 
 这次缓冲区溢出导致修改了savedPC的值,原本正确savedPC值应该是`CALL <foo> ` 的下一 句，然而-4操作让它又指向了`CALL<foo>`，这样在foo返回时又跳转到了这里，于是在返回后只是再次调用foo函数。然后函数执行并返回，还是修改了savedPC的值，如此循环调用foo函数。
 
