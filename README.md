@@ -1,4 +1,4 @@
-# Codes For CS107
+# Notes & Codes For Stanford CS107 Programming Paradigms
 
 ## 1. Was Ist Das? 
 
