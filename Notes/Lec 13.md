@@ -389,7 +389,13 @@ int main(int argc, char** argv)
 
 这种现象从技术上叫做缓冲期溢出。会让程序出现问题。
 
-tips：编译器为了防止越界默认开启一个编译选项进行栈保护，即不会让array 和 i 之间相邻。但是这一保护可以通过配置编译选项取消。
+tips：编译器为了防止越界默认开启一个编译选项进行栈保护，即不会让array 和 i 之间相邻。但是这一保护可以通过配置编译选项取消。所以要模拟这个deadloop，应该在编译时指定-fno-stack-protector。
+
+```shell
+-fstack-protector #启用堆栈保护，不过只为局部变量中含有 char 数组的函数插入保护代码
+-fstack-protector-all #启用堆栈保护，为所有函数插入保护代码
+-fno-stack-protector  #禁用堆栈保护
+```
 
 ### Little-endian or big-endian
 
