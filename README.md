@@ -1,6 +1,6 @@
 # Notes & Codes For Stanford CS107 Programming Paradigms
 
-## 1.About thie repo 
+## 1.About this repo 
 
 ​	This Repo contains codes and notes which are written by myself while learing Stanford CS107 lecture.
 
