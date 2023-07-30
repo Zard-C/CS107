@@ -68,6 +68,7 @@ void* sellTicket(void* arg)
             usleep(1000);
         }
     }
+    sem_post(&lock);
     printf("Agent %d sold %d tickets\n",id,numSoldByThisThread);
     return NULL;
 }
