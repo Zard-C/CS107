@@ -1,17 +1,17 @@
-# Lec 01 
+# Lec 01: Programming Paradigms
 
 ## 编程范式
 
 ```shell
-C													Procedure Oriented
+C                                           Procedure Oriented
 Assembly 
-C++												Obejct Oriented
+C++                                         Obejct Oriented
 Concurrent Programming
-Scheme LISP								function language， no side effect 
-Python										morden Object Oriented    perl 
+Scheme LISP                                 function language， no side effect 
+Python                                      morden Object Oriented    perl 
 ```
 
-​	学习的不只是语言，真生的精髓在于不同语言的编程范式.
+​学习的不只是语言，真正的精髓在于不同语言的编程范式.
 
 ### 面向过程
 
@@ -31,15 +31,12 @@ myobject->dothis();
 
 ### 程序编译
 
-​	c源程序和cpp源程序编译成汇编代码看起来几乎像是同一种语言。
+​c源程序和cpp源程序编译成汇编代码看起来几乎像是同一种语言。
 
 ### 并发编程
 
-​	两个程序看起来像是同时执行，但是实际上不是。如同同时在看两部电影一样。
+​两个程序看起来像是同时执行，但是实际上不是。如同同时在看两部电影一样。
 
-​	在有些机器上只有一个处理器：在两个函数之间来回切换执行。
+​在有些机器上只有一个处理器：在两个函数之间来回切换执行。
 
-​	在网络编程领域尤其常用。ATM机的例子。 
-
-
-
+​在网络编程领域尤其常用。ATM机的例子。
