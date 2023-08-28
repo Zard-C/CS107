@@ -3,6 +3,7 @@
 View this repo in [Github Pages](https://zard-c.github.io/CS107/)
 
 ## Contents
+
 1. [Programming Paradigms](Notes/1-ProgrammingParadigms.md)
 2. [C Programming](Notes/2-CProgramming.md)
 3. [C Pointer](Notes/3-CPointer.md)
