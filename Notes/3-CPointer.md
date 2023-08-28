@@ -9,9 +9,7 @@ double d = 3.1416;
 char ch = *(char *)&d; 
 ```
 
-​	先对d取地址，然后将这个地址的起始第一个字节赋值给ch。
-
-
+​先对d取地址，然后将这个地址的起始第一个字节赋值给ch。
 
 ```c
 short s = 45;
@@ -20,19 +18,19 @@ double d = *(double *) &s
 
 强制重新解释地址，当成double类型进行解引用操作。这是一个越界访问的行为。
 
-- big endian	0000 0000 0000 0001
+- big endian       0000 0000 0000 0001
 - little endian   0001 0000 0000 0000
 
-### 结构体 
+### 结构体
 
 ```c
 struct fraction
 {
-  	int num;
-   	int denum;
+  int num;
+  int denum;
 }; 
 
-fraction pi; 		/* a storage of fraction type */
+fraction pi;  /* a storage of fraction type */
 
 pi.num = 22; 
 pi.denunm = 7;
@@ -61,13 +59,13 @@ array[-4] = 77;
 
 #### 指针偏移与下标的关系
 
-- 基于数据类型获得实际偏移的字节数
+基于数据类型获得实际偏移的字节数
 
 ```shell
-				array == &array[0] 
-		array + k == &array[k] 
-		*array		== array[0]
-	*(array + k) == array[k]
+array  ==  &array[0] 
+array + k  ==  &array[k] 
+*array  ==  array[0]
+*(array + k) ==  array[k]
 ```
 
 #### 强制类型转换
@@ -79,14 +77,14 @@ arr[3] = 128;
 ((short *)(((char* )(&arr[1])) + 8))[3] = 100; // (short*)(arr)[9] = 100; 
 ```
 
- #### 结构体数组
+#### 结构体数组
 
 ```c
 struct student
 {
-  	char *name; 
-  	char suid[8]; 
-  	int numUnits; 
+  char *name; 
+  char suid[8]; 
+  int numUnits; 
 }
 
 student pupils[4]; 
@@ -97,6 +95,7 @@ pupils[3].name = pupils[0].suid + 6;
 strcpy(pupils[1].suid, "40415xx"); 
 strcpy(pupils[3].name, "123456"); 
 pupils[7].suid[11] = 'A'; 
+
 ```
 
 ### swap函数(int 类型)
@@ -105,19 +104,12 @@ pupils[7].suid[11] = 'A';
 /* rotating shift */
 void swap(int *ap, int *bp)
 {
-  	int temp = *ap;
-  	*ap = *bp;
-  	*bp = temp; 
+  int temp = *ap;
+  *ap = *bp;
+  *bp = temp; 
 }
 
 int x = 7;
 int y = 11; 
 swap(&x, &y);
 ```
-
-
-
-
-
-
-
