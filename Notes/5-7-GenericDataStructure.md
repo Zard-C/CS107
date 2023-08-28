@@ -4,14 +4,14 @@
 
 .h 和 .c 方式将行为描述和具体实现分开。
 
-### 1.1 int 类型stack
+## 1.1 int 类型stack
 
 ```c
 typedef struct 
 {
-  	int *elems;
-  	int logicalLen;
-  	int alloclength;
+  int *elems;
+  int logicalLen;
+  int alloclength;
 }Stack;
 
 // 构造函数
@@ -28,51 +28,51 @@ Stack s;
 stackNew(&s);
 for(int i = 0; i < 5; ++i)
 {
-  	stackPush(&s, i);
+  stackPush(&s, i);
 }
 stackDispose(&s); 
 
 int stackNew(Stack* s)
 {
-  	s->logicalLen = 0;
-  	s->alloclength = 4;
-  	s->elems = malloc(4 *sizeof(int)); // new 会隐式地考虑权限。
-  	
-  	// assert(s->elems != NULL);
-  	if(s->elems != NULL)
-    {
-      return 0;
-    }
-  	return -1; 
+  s->logicalLen = 0;
+  s->alloclength = 4;
+  s->elems = malloc(4 *sizeof(int)); // new 会隐式地考虑权限。
+
+  // assert(s->elems != NULL);
+  if(s->elems != NULL)
+  {
+    return 0;
+  }
+  return -1; 
 }
 
 
 void stackDispose(Stack * s)
 {
-  	free(s->elems);	// s->elems 中保存的变量该如何处理？
-//free(s); ? stack 已经被分配好，即使需要free也是上层调用者来完成。
+  free(s->elems);  // s->elems 中保存的变量该如何处理？
+  //  free(s); ? stack 已经被分配好，即使需要free也是上层调用者来完成。
 }
 
 void stackPush(Stack * s, int value)
 {
-		if(s->logicalLen == s->allocLength)
-    {
-      	s->allocLength *= 2; 
-    	  realloc(s->elems, s->allocLength * sizeof(int));// 别忘了size ,捕获返回值非常重要。
-    }
-  	// check for NULL;
-  
-  	s->elems[s->logicalLenth] = value;
-		s->logicalLenth++; 
-}	
+  if(s->logicalLen == s->allocLength)
+  {
+    s->allocLength *= 2; 
+    realloc(s->elems, s->allocLength * sizeof(int));// 别忘了size ,捕获返回值非常重要。
+  }
+  // check for NULL;
+
+  s->elems[s->logicalLenth] = value;
+  s->logicalLenth++; 
+}
 
 
 int stackPop(Stack * s)
 {
-  	assert(s->logicalLen > 0);
-  	s->logicalLen --;
-  	// 为了提高运行速度，通常会忽略掉缩小申请的堆内存的操作
-  	return s->elems[s->logicalLen]; 
+  assert(s->logicalLen > 0);
+  s->logicalLen --;
+  // 为了提高运行速度，通常会忽略掉缩小申请的堆内存的操作
+  return s->elems[s->logicalLen]; 
 }
 ```
 
@@ -89,22 +89,20 @@ void* realloc(void*, size_t);
    O(m), m is the size of the heap
 ```
 
-### 1.2 Generic Stack
+## 1.2 Generic Stack
 
 1. 失去了元素类型信息：大小
 2. 不能进行指针运算
-
-
 
 ```c
 // stack.h 
 typedef struct 
 {
-	void *elems; 
-  	int elemSize;
-  	int loglength;
-  	int allocLength;
-  	void (*freefn)(void*); 
+  void *elems; 
+  int elemSize;
+  int loglength;
+  int allocLength;
+  void (*freefn)(void*); 
 }stack;
 
 void stackNew(stack * s, int elemSize);
@@ -117,51 +115,51 @@ void stackPop(stack *s, void *elemAddr);
 // stack.c 
 void stackNew(stack *s, int elemSize, void (*freefn)(void *))
 {
-  	assert(s->elemSize > 0); 
-  	s->loglength = 0; 
-  	s->allocLength = 4;
-  	s->elems = malloc(4 * elemSize); 
-  	s->freefn = freefn; 
-  	assert(s->elems != NULL);  
+  assert(s->elemSize > 0); 
+  s->loglength = 0; 
+  s->allocLength = 4;
+  s->elems = malloc(4 * elemSize); 
+  s->freefn = freefn; 
+  assert(s->elems != NULL);  
 }
 
 void stackDispose(stack *s )
 {
-		if(s->freefn != NULL)
+  if(s->freefn != NULL)
+  {
+    for(int i = 0; i < s->logLength; ++i)
     {
-      	for(int i = 0; i < s->logLength; ++i)
-        {
-          	freefn((char*) s->elems + i * s->elemSize); 
-        }
+      freefn((char*) s->elems + i * s->elemSize); 
     }
- 
-  	free(s->elems);   
+  }
+
+  free(s->elems);   
 }
 
 void stackPush(stack *s, void *elemAddr)
 {
-  	if(s->logLength == s->allocLength)
-    {
-      	// reallocation part
-      	stackGrow(s); 
-    }
-  	
-  	void *target = (char* )s->elems + s->logLength * s->elemSize;
-		memcpy(target, elemAddr, s->elemSize); // unsigned long  same size as pointer in 32bit 
-  	s->logLength ++; 
+  if(s->logLength == s->allocLength)
+  {
+    // reallocation part
+    stackGrow(s); 
+  }
+
+  void *target = (char* )s->elems + s->logLength * s->elemSize;
+  memcpy(target, elemAddr, s->elemSize); // unsigned long  same size as pointer in 32bit 
+  s->logLength ++; 
 }
 
-static	void stackGrow(stack *s) 
+static void stackGrow(stack *s) 
 {
-  	s->allocLength *=2;
-  	s->elems = realloc(s->elems, s->allocLength * s->elemSize); 
+  s->allocLength *=2;
+  s->elems = realloc(s->elems, s->allocLength * s->elemSize); 
 }
 
 void stackPop(stack *s, void *elemAddr)
 {
-  	void *source = (char *)s->elems + (s->logLength - 1) * s->elemSize;
-  	memcpy(elemAddr, source, s->elemSize); 
-  	s->logLength --;
+  void *source = (char *)s->elems + (s->logLength - 1) * s->elemSize;
+  memcpy(elemAddr, source, s->elemSize); 
+  s->logLength --;
 }
 
 ```
@@ -172,57 +170,52 @@ void stackPop(stack *s, void *elemAddr)
 ```c
 void StringFree(void * vp)
 {
-  	free(*(char**)vp); 
+  free(*(char**)vp); 
 }
 
 int main()
 {
-  	const char * friends[] = {"Al", "Bob", "Carl"}; 
-  	stack StringStack;
-  	stackNew(&StringStack, sizeof(char*), StringFree); 
-  	
-  	for(int i = 0; i < 3; ++i)
-    {
-      	char *copy = strdup(friends[i]); // deep copy 
-      	stackPush(&StringStack, copy); 	
-    }
-  
-  	for(int i = 0; i < 3; ++i)
-    {
-      	char ** names = NULL;
-      	stackPop(&StringStack, &names); 
-    }
-  	stackDispose(&StringStack); // elems 中的元素应该如何处理？freefn!
+  const char * friends[] = {"Al", "Bob", "Carl"}; 
+  stack StringStack;
+  stackNew(&StringStack, sizeof(char*), StringFree); 
+
+for(int i = 0; i < 3; ++i)
+{
+  char *copy = strdup(friends[i]); // deep copy 
+  stackPush(&StringStack, copy);
+}
+
+for(int i = 0; i < 3; ++i)
+{
+  char ** names = NULL;
+  stackPop(&StringStack, &names); 
+}
+stackDispose(&StringStack); // elems 中的元素应该如何处理？freefn!
 }
 ```
 
-### 2.1 more generic 
+## 2.1 more generic
 
-#### 2.1.1 rotate
+### 2.1.1 rotate
 
 ```c
 void rotate(void* front, void *middle, void * end)
 {
-  	// memcpy 无法处理数据重叠的情况，如果调用者不能确保地址是否重叠，那么可以调用一个效率稍低的版本memmove
-  	int forntSize = (char*)middle - (char*) front; 
-  	int backsize = (char*)end - (char*)middle;
-  
-  	char buffer[frontsize]; 
-  	memcpy(buffer, front, frontsize); 
-  	memmove(fornt, middle, backsize); 
-  	memcpy((char*)end - frontsize, buffer, frontsize); 
+  // memcpy 无法处理数据重叠的情况，如果调用者不能确保地址是否重叠，那么可以调用一个效率稍低的版本memmove
+  int forntSize = (char*)middle - (char*) front; 
+  int backsize = (char*)end - (char*)middle;
+
+  char buffer[frontsize]; 
+  memcpy(buffer, front, frontsize); 
+  memmove(fornt, middle, backsize); 
+  memcpy((char*)end - frontsize, buffer, frontsize); 
 }
 ```
 
-#### 2.1.2 qsort
+### 2.1.2 qsort
 
 ```c
  void qsort(void *base, size_t nel, size_t width, int (*compar)(const void *, const void *));
 ```
 
-
-
-查看编译器生成的汇编代码：
-
-https://godbolt.org/ 
-
+[查看编译器生成的汇编代码](https://godbolt.org/)

@@ -1,22 +1,22 @@
 # Lec 2
 
-## C 语言指针的-底层特性 
+## C指针的底层特性
 
 ## 基本类型的底层存储机制
 
 ```c
 bool
-char 			1 byte
-short			2 bytes
-int 			2 -4 bytes
-long;			4 bytes
-float;		4 bytes
-double;		8 bytes 
+char            // 1 byte
+short           // 2 bytes
+int             // 2 - 4 bytes
+long;           // 4 bytes
+float;          // 4 bytes
+double;         // 8 bytes 
 ```
 
 ### binary digit -> bit
 
-​	 2 different values 
+2 different values
 
 ### char
 
@@ -24,9 +24,9 @@ double;		8 bytes
 
 'A' -> `0100 0001` -> 2^6 + 2^0
 
-### short 
+### short
 
-2^16 values 
+2^16 values
 
 `0111 1111 1111 1111`-> 2^15 -1
 
@@ -34,7 +34,7 @@ double;		8 bytes
 
 ### 负数的二进制表示形式：补码
 
-`0000 0000 0000 0111` - >7 
+`0000 0000 0000 0111` - >7
 
 `1111 1111 1111 1001`-> -7
 
@@ -48,7 +48,7 @@ double;		8 bytes
 
 ```c
 char ch = 'A'; 
-short s = ch; 	/* 按位复制： copy the bit patten  */
+short s = ch;  /* 按位复制： copy the bit patten  */
 cout << s <<endl;
 // 65;
 ```
@@ -78,14 +78,14 @@ short s = i;
 ### 符号扩展
 
 ```c
-short s = -1; /* 1111 1111 1111 1111 */
-int i = s;		/* 1111 1111 1111 1111 1111 1111 1111 1111  */ 
+short s = -1;  /* 1111 1111 1111 1111 */
+int i = s;  /* 1111 1111 1111 1111 1111 1111 1111 1111  */ 
 // 仍然使用位模式拷贝 使用符号位作为原始数字，进行符号扩展
 ```
 
 ### 浮点数的表示方法
 
-​	用2^-n 去逼近想得到的值： 精度
+​用2^-n 去逼近想得到的值： 精度
 
 | signed bit | magnitude only | precision |
 | ---------- | -------------- | --------- |
@@ -96,7 +96,7 @@ $$
 (-1)^s*(1.xxxxx)*2^(exp - 127）
 $$
 
-7.0 = 3.5*2^1 = 1.75 * 2^2, 1.75 	落在1.xxxx范围内。
+7.0 = `3.5*2^1` = `1.75 * 2^2`, 1.75 落在1.xxxx范围内。
 
 ### 整数与浮点数相互转换
 
@@ -106,7 +106,7 @@ float f = i; 5->5.0 -> 1.25*2^2
 cout << f <<endl; // 5 
 ```
 
-​	相互转换时会计算转换后的位模式是什么，然后创建变量进行赋值操作。
+​相互转换时会计算转换后的位模式是什么，然后创建变量进行赋值操作。
 
 ```c
 int i = 37;
@@ -124,25 +124,4 @@ short *s = *(short *)&f;
 ```
 
 - 大端字节序
-
 - 小端字节序
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-​	

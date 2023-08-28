@@ -1,10 +1,8 @@
-# Lec 12 
+# Lec 12: Preprocessing
 
 [TOC]
 
 每个阶段都做了些什么事情？
-
-
 
 ## 1. 预处理器指令#define
 
@@ -13,14 +11,14 @@
 预处理只涉及文本的替换，而替换产生的问题会在之后的编译阶段识别，甚至会在运行时才体现。只是你不知道罢了。 
 
 ```c
-#define kWidth 	40
-#define kHeight	80
+#define kWidth  40
+#define kHeight 80
 // 这两行之后只要出现了kWidth 或者kHeight 的话都会被进行文本替换，唯一的区别是#define 不会替换字符串常量。
 #define kPerimeter 2*(kWidth*kHeight) 
 // 会将kWidth 和 kHeight进行替换 2*（40+80）但是预处理并不会对其进行求值，而是将其看做文本，直到编译阶段才会进行求值操作。
 ```
 
-#define进行大规模的查找和替换。这一预编译指令常用在纯C语言中。用来为某些常数或者常量字符串赋予一个有意义的名字。
+`#define`进行大规模的查找和替换。这一预编译指令常用在纯C语言中。用来为某些常数或者常量字符串赋予一个有意义的名字。
 
 ### #define 宏
 
@@ -38,7 +36,7 @@ MAX(10, 40); // 当遇到这个表达式的时候，预处理去会找到这个M
 因此，使用#define，可以将代码中使用了MAX 和两个参数的宏，高效地扩展成对应的表达式，在这里并不需要a和b都是整数。虽然看起来这里应该是整数。
 
 ```c
-MAX(40.2, "Hello");	// 这样写最终会报错，但是在预处理阶段这么写不会有任何问题。
+MAX(40.2, "Hello");  // 这样写最终会报错，但是在预处理阶段这么写不会有任何问题。
 ```
 
 预处理阶段要做的事情就是进行模版化查找和替换。你会看到40.2替换了a，常量字符串"Hello"替换了b，所有出现在表达式中的b。而且只有在编译阶段，编译器才会读取这个扩展的表达式。并且分析它们的类型。然后说：“你直到不，我并不想对double类型和char* 类型进行大于比较“，因此最后会产生一个编译错误。 但是这个错误并不是在预处理阶段产生的。
@@ -99,7 +97,7 @@ c语言诞生的时候编程信条是让程序员能够对机器做任何事，�
 
  ```c
  #define NthElemAddr (base, elemSize, index) \
- 		((char*)base + index*elemSize)
+         ((char*)base + index*elemSize)
  ```
 
 也可以将它写成函数的形式，之所以将它写成一个独立的部分，是想要不使用assert来执行指针算数运算。因此可以在assert语句之后来调用这个宏。使用这个宏可以快速计算出下标对应的地址，只不过代码不够干净，其他人可能会说，这里应该使用更加安全的编码方式，即对下标的合法性作出检查。因为这样的代码你一旦不小心就会产生问题。在这样做之前一定要保证这就是你想做的操作。
@@ -123,10 +121,10 @@ void* VectorNth(Vector* v, int position)
 // assert 宏的定义
 
 #ifdef NDEBUG
-	#define assert(cond) ((void)0)
+    #define assert(cond) ((void)0)
 #else
-	#define assert（cond) \ 
-		(cond)? ((void)(0)) : fprintf(stderr, "string")，exit(0) //"string" 是一个字符串，其中涉及了编译的文件名，以及行号等信息。
+    #define assert（cond) \ 
+        (cond)? ((void)(0)) : fprintf(stderr, "string")，exit(0) //"string" 是一个字符串，其中涉及了编译的文件名，以及行号等信息。
 #endif
 ```
 
@@ -153,12 +151,12 @@ void* VectorNth(Vector* v, int position)
 #include "vector.h"
 ```
 
-### include <> 和 "" 的区别：
+### include <> 和 "" 的区别
 
 - <> 编译器假设这是一个系统头文件，这个头文件是编译器提供的，因此可以通过默认路径找到。`/user/bin/include， /user/include`
 - ""编译器假设这是一个用户编写的.h文件，因此默认会从当前的工作目录查找该头文件。通过makefile可以设置GCC的一些选项来告诉编译器从哪里寻找包含的头文件。
 
-#include 也负责着查找和替换。找到.h文件，并且将#include 这一行删除，在这个位置上替换成.h文件中的内容。预处理之后的文本流，其实也就是预处理阶段的输出，它被叫做翻译单元。在翻译单元中，所有的#define 和#include都被移除了。预处理器会将替换后的文本传递给编译器。
+`#include` 也负责着查找和替换。找到.h文件，并且将#include 这一行删除，在这个位置上替换成.h文件中的内容。预处理之后的文本流，其实也就是预处理阶段的输出，它被叫做翻译单元。在翻译单元中，所有的#define 和#include都被移除了。预处理器会将替换后的文本传递给编译器。
 
 为什么不每次都将函数原型写上，而要使用#include呢？更希望将所有的函数原型都写在同一个文件中。这样使用者就会在怎样调用这些函数上达成一致。
 
@@ -167,12 +165,12 @@ void* VectorNth(Vector* v, int position)
 对于#include的处理是递归的，因此如果#include中的文件里面还有#include语句时，预处理器会一直深入进去，直到最底层。预处理器会进行深度优先搜索，它会将#include中的内容进行层层替换。直到生成不包含#include和#define的文本流，然后将它传递给编译器进行处理。
 
 ```shell
-gcc -E vector.c	# 只进行预处理，并输出，不进行后续阶段的操作 
+gcc -E vector.c # 只进行预处理，并输出，不进行后续阶段的操作 
 ```
 
 在这个文件中的#include 和 #define都被替换了，并且组成了一个更大的翻译单元。里面包含着vector.h中所有相关的原型，而不光是vector.c中的内容。 
 
-### **防卫式声明**
+### 防卫式声明
 
 ANSI标准支持的解决循环包含的一种方式。
 
@@ -187,11 +185,9 @@ ANSI标准支持的解决循环包含的一种方式。
 
 如果预处理器之前没见过___VECTOR_H___，他就会展开头文件，进行替换定义__VECTOR_H___, 并不需要为这个符号指定一个值，它只是一个没有意义的符号。在预处理阶段会有一个hashset来存储这个名字，来表示是否被定义过。如果编译器之前见到过这个_VECTOR_H_,即发生了循环引用的情况，当编译器发现又一次遇到了它时。它会将这部分作为翻译单元的一部分。发现已经被定义过，这样以来预处理器会跳过这个定义，以避免循环包含的情况出现。
 
-
-
 Q&A 为啥不include .cpp
 
-​	所有的.h都是定义某些原型，不会产生代码，就好比你定义某个结构类型，它实际上不会产生与该结构体相应的代码。而且在.h中你也不能定义任何的存储空间。除非定义共享的全局变量。但这很少使用。
+​所有的.h都是定义某些原型，不会产生代码，就好比你定义某个结构类型，它实际上不会产生与该结构体相应的代码。而且在.h中你也不能定义任何的存储空间。除非定义共享的全局变量。但这很少使用。
 
 .c和.cc文件就不同了，实际上他们定义了全局变量和全局函数，以及类方法等一系列东西。这些都要被翻译成系列里的01代码(机器码)，但是.h中只是定义，并不会生成相应的机器码。因此你可以读取多次.h。如果.cpp 被多次#include了，那么会多次定义全局函数，以及全局变量。当生成可执行文件时。会发现代码中有很多个统一函数的实现。
 
@@ -202,10 +198,10 @@ Q&A 为啥不include .cpp
 编译都有自己的预处理器版本。
 
 ```c
-#pragma once 	//这其实是防卫式声明的简短版，但是不是ANSI标准中定义的（在讲课时候）
+#pragma once  //这其实是防卫式声明的简短版，但是不是ANSI标准中定义的，而是编译器自己定义的。因此不同的编译器可能会有不同的实现。但是大多数的编译器都支持这种方式。
 ```
 
-不过不同的预处理器可以对标准的预处理器指令进行任意的扩展。可能会见到#ifdef, #ifndef 等等，但是只需要熟悉#include 和 #define就可以了。如果你知道这些指令是在预处理阶段被执行，并且这些指令意味着很多的扩展信息。 
+不过不同的预处理器可以对标准的预处理器指令进行任意的扩展。可能会见到#ifdef, #ifndef 等等，但是只需要熟悉#include 和 #define就可以了。如果你知道这些指令是在预处理阶段被执行，并且这些指令意味着很多的扩展信息。
 
 ## 3. 编译，汇编与链接的过程
 
@@ -226,18 +222,18 @@ Q&A 为啥不include .cpp
 编译阶段做了什么
 
 ```c
-#include <stdio.h> 			// printf
-#include <stdlib.h>			// malloc, free 
-#include <assert.h> 		// assert marco 
+#include <stdio.h>     // printf
+#include <stdlib.h>    // malloc, free 
+#include <assert.h>    // assert marco 
 
 int main(int argc, char** argv)
 {
-	void* meomory = malloc(400); 
-	assert(memory != NULL);
-	printf("Yay!\n"); 
-	free(memory); 
-	
-	return 0; 
+    void* meomory = malloc(400); 
+    assert(memory != NULL);
+    printf("Yay!\n"); 
+    free(memory); 
+
+    return 0; 
 }
 ```
 
@@ -256,7 +252,7 @@ gcc main.c
 
 CALL <malloc> 
 
-CALL <fprintf> 		# 这个是assert宏展开中的符号，所以会有这个函数调用
+CALL <fprintf>     # 这个是assert宏展开中的符号，所以会有这个函数调用
 
 CALL <printf> 
 
@@ -269,8 +265,7 @@ RET;
 
 为何没有`CALL <assert>` ？ 因为assert不是函数，assert.h中定义了替换assert的方式，所以在预处理阶段就被替换成了表达式。在预处理之后的文本流中没有assert符号，所以编译器根本不会看到它，更不会把它当成函数调用。
 
-但是assert展开之后会有fprintf，所以在编译时会看到fprintf的调用，进而在.o文件中有所体现`CALL<fprintf>` 
-
+但是assert展开之后会有fprintf，所以在编译时会看到fprintf的调用，进而在.o文件中有所体现`CALL<fprintf>`
 如果在makefile中没有指定下面的编译选项，那么gcc会继续编译之后的流程，并且尝试生成可执行文件。默认情况下，可执行文件名是a.out，除非你使用-o选项来指定可执行文件名。
 
 对于这个阶段，唯一要求就是程序要通过编译。
@@ -285,7 +280,7 @@ RET;
 
 这一阶段的要求是需要有一个main函数。这样链接器就能知道从何处开始执行程序，并且对于每个要被调用的函数，都应该有定义，并且只被定义了一次。在生成个可执行文件的时候并不会产生很多的链接错误。
 
-默认情况下它会链接定义printf, fprintf, malloc, free, realloc等函数实现的库文件。 
+默认情况下它会链接定义printf, fprintf, malloc, free, realloc等函数实现的库文件。
 
 ```shell
 gcc -c main.c 
