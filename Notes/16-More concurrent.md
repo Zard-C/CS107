@@ -1,4 +1,4 @@
-# Lec16 
+# Lec16
 
 - Ticket Agent, part II
 - Ringbuffer: another way to use semaphore
@@ -15,7 +15,7 @@
        // critical region start
        if(*numTicketsp == 0)
        {
-           break;	// 1⃣️
+           break;    // 1⃣️
        }
        (*numTicktesp)--;
        // critical region end
@@ -23,12 +23,12 @@
        // you may want to write some log
        // sleep a little while
      }
-     SemaphoreSignal(lock);	 // 对应1⃣️处break的情况，需要释放资源 
+     SemaphoreSignal(lock);  // 对应1⃣️处break的情况，需要释放资源 
      // every SemaphoreWait is bounced back by SemaphoreSignal
  }
  
- semaphore_wait();	// 同步地将变量-1
- semaphore_signal();	// 同步地将变量+1
+ semaphore_wait();      // 同步地将变量-1
+ semaphore_signal();    // 同步地将变量+1
  ```
 
 任意一个到达临界区域(SemaphoreWait)的线程都会遇到两种情况：
@@ -46,7 +46,7 @@
 
 在实现上semaphore_wait是使用线程库
 
-**"OK, I can't make any progress right now. It pulls itself off the processor, and records itself as something that's called blocked, and it puts it in this cue of threads are not allowed to make progess until some other threads signals a semaphore they're waiting on "**
+"OK, I can't make any progress right now. It pulls itself off the processor, and records itself as something that's called blocked, and it puts it in this cue of threads are not allowed to make progess until some other threads signals a semaphore they're waiting on "
 
 这段解释提到的是一个线程（一个进程中的执行单元）意识到它无法继续向前推进的情况（可能是因为缺乏所需的资源或者因为它正在等待另一个操作完成）。因此，它停止了执行（‘从处理器上移除自己’）并将其状态改变为‘阻塞’。阻塞意味着线程是不活动的，并且不能取得进展。这个线程随后被放置在一个阻塞线程的队列中。线程将保持在这种状态，直到满足特定条件 — 通常，这个条件是由另一个线程通过信号量发出的。信号量是一种同步机制，用于在并发系统中控制对共享资源的访问。当信号量被发出时，它表示阻塞线程所等待的资源或条件现在可用，因此阻塞线程可以离开阻塞队列并恢复执行。
 
@@ -63,10 +63,10 @@
 ```
 
 ```shell
-		# ...
-        ldr     r2, [r3]		# load r2:100
-        sub     r2, r2, #1		# sub  r2:99
-        str     r2, [r3]		# store
+  # ...
+        ldr     r2, [r3]  # load r2:100
+        sub     r2, r2, #1  # sub  r2:99
+        str     r2, [r3]  # store
 ```
 
 当被换出处理器时，所有寄存器的值,都会被拷贝到被换出的线程底部小的堆栈结构，当它重新得到处理器时，则为该线程恢复寄存器设置，这也就是所谓的`context-switch`
@@ -81,7 +81,25 @@ Semaphore的作用是只允许一个线程通过，把全局的值放入局部�
 
 如果我们将semaphore初始化为2，这基本上和初始化为10一样坏，因为我们不想让多个线程在同一时刻进入critical region.
 
+### context
 
+线程的上下文(context)是指在特定时刻线程所包含的所有状态信息。这个信息使得操作系统能够在多个线程间进行切换，而每个线程能够恢复到正确的状态继续执行。线程上下文通常包括以下几个主要部分：
+
+1. **CPU寄存器状态**：这包括了通用寄存器、指令计数器（指示下一条执行指令的位置）、堆栈指针（指向线程堆栈的顶部）和状态寄存器等。这些寄存器存储了线程在特定时刻的运行状态。
+
+2. **程序计数器（Program Counter）**：程序计数器存储着线程将要执行的下一条指令的地址。它指示了线程执行的当前位置。
+
+3. **堆栈信息**：线程的堆栈包括了函数调用的历史、局部变量、返回地址等信息。当线程进行函数调用时，会将相关信息压入其堆栈，当函数返回时，信息会从堆栈中弹出。
+
+4. **线程的堆栈指针**：这个指针指向线程私有堆栈的当前位置，标识着堆栈中数据的顶部。
+
+5. **线程特定的数据**：比如线程的优先级、状态（如就绪、运行、等待）和线程本地存储等。
+
+6. **上下文切换**：当操作系统切换到另一个线程时，它会保存当前线程的上下文，并加载另一个线程的上下文。这使得每个线程似乎拥有连续的执行流，尽管实际上它们可能被频繁地中断和恢复。
+
+因此，线程的上下文不仅包括了堆栈信息，还包括了CPU寄存器的状态和其他与线程运行状态相关的信息。这些信息对于线程的暂停和恢复至关重要。
+
+其中堆栈信息在英语中通常表达为 "Stack Information"。在计算机科学和编程领域，这个术语通常指的是存储在程序的调用栈（call stack）上的数据，包括局部变量、函数调用的顺序和返回地址等，其实应该特指调用栈。
 
 ## Ringbuffer Example
 
@@ -93,9 +111,7 @@ Semaphore的作用是只允许一个线程通过，把全局的值放入局部�
 2. Reader thread 读取40 字符
 3. 我们希望reader 能够尽快读取，以免writer太快了导致覆盖没有被读取的数据.
 
-
-
-### first version:
+### first version
 
 ```c
 char buffer[8];
@@ -143,8 +159,8 @@ semaphore 的另一种使用方式
 
 ```c
 char buffer[8];
-Semaphore emptyBuffers(8);	// 最开始有8个buffer为空，  可以被写入
-Semaphore fullBuffers(0); 	// 最开始有0个buffer被写入，可以被读取
+Semaphore emptyBuffers(8); // 最开始有8个buffer为空，  可以被写入
+Semaphore fullBuffers(0);  // 最开始有0个buffer被写入，可以被读取
 
 void Writer()
 {
@@ -177,4 +193,3 @@ int main()
     RunAllThread();
 }
 ```
-
