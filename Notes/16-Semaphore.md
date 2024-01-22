@@ -1,8 +1,8 @@
-# Lec16
+# Ways to use semaphore
 
 - Ticket Agent, part II
 - Ringbuffer: another way to use semaphore
-- The Dinnig Philosophers
+- The Dinnig Philosophers, part I
 
 ## previous code （Ticket Agent)
 
@@ -191,5 +191,170 @@ int main()
     ThreadNew("Writer", Writer, 0);
     ThreadNew("Reader", Reader, 0);
     RunAllThread();
+}
+```
+
+注意代码中的Ss和Sw，它们是互相对应两个的线程中的sw和ss
+
+#### scenario 1
+
+reader goes first
+
+执行到`SemaphoreWait(fullBuffers);` 然后立即阻塞，因为它要wait的东西实际上是0，just like we want it to be
+
+#### scenario 2
+
+writer goes first
+
+Writer 线程很快，并且高效地写完了8个buffer，then it hits a wall. 因为此时Reader还没有从缓冲区中拿出数据。
+
+TicketAgent 示例中使用了一个Semaphore，并且在上面Signal 和 Wait，这种使用方式可视作一个`binary lock`, 因为Semaphore的值只有0和1.
+
+Ringbuffer 示例则展现了Semaphore在多线程作为通信的另一个用途，这种使用方式类似于打电话，两个线程之间互相进行通知。当其他进程获得一些必须的进展之前，当前线程无法进一步工作。
+
+#### discussion
+
+```c
+char buffer[8];
+Semaphore emptyBuffers(4); // 最开始有4个buffer为空，  可以被写入
+Semaphore fullBuffers(0);  // 最开始有0个buffer被写入，可以被读取
+```
+
+不会改变代码的正确性(取决你如何进行定义)，并且也不会得到死锁，这样只是限制了writer的自由度(由可以超前reader 8个字节变成了4个字节)
+
+```c
+char buffer[8];
+Semaphore emptyBuffers(1); // 最开始有1个buffer为空，  可以被写入
+Semaphore fullBuffers(0);  // 最开始有0个buffer被写入，可以被读取
+```
+
+更进一步限制了writer的自由度，只能在这两个函数read和write之间进行交替
+
+```c
+char buffer[8];
+Semaphore emptyBuffers(0); // 最开始有0个buffer为空，  可以被写入
+Semaphore fullBuffers(0);  // 最开始有0个buffer被写入，可以被读取
+```
+
+这就得到了一个死锁，互相都在等待对方取得进展。
+
+Reader: I can't do anything, cause I have no place to read from
+
+Writer: I can't do anything either, cause I have no place to write to.
+
+如果**你的代码中有很多Semaphore时，你很容易在其中进行剪切和粘贴中犯这种错误**
+
+死锁的时候，一切都似乎停止了，不会再有消息发送到控制台，程序也不会返回，两个线程在都在等待对方，或者说，没有人释放锁(或者类似的东西)。
+
+```c
+char buffer[8];
+Semaphore emptyBuffers(7); // 最开始有7个buffer为空，  可以被写入
+Semaphore fullBuffers(1);  // 最开始有1个buffer被写入，可以被读取
+```
+
+实际上允许Reader线程领先Writer线程一跳(hop)
+
+```c
+char buffer[8];
+Semaphore emptyBuffers(16); // 最开始有16个buffer为空，  可以被写入
+Semaphore fullBuffers(0);  // 最开始有0个buffer被写入，可以被读取
+```
+
+实际上为了确保编程的正确性，这个值应该是[1,8]中间的一个值，设置为16表示Writer允许使用两个循环领先Reader，这是不正确的，因为它最多也只能提前8个slots以免没有读取的数据被覆盖。
+
+最佳的答案是8：如果你有多种选择来初始化这个信号量，我们应该用最大的灵活性来授权线程调度器，而且它也提高了每个线程能拥有尽可能长的时间片。
+
+#### binary lock
+
+SemaphoreWait和SemaphoreSignal 采用的是二进制锁的思想，当它的确是个锁的时候，会有`acquire`和`release`作为动词来获取和释放锁，有些版本的线程库实际上定义了锁这种类型，以及相应的获取和释放动作，这也是SemphoreWait和SemaphoreSignal 的封装器
+
+#### Think about
+
+有多个Writer的情况：需要额外的变量（二进制锁），以免两个以上的Writer线程同时进入critical region.
+
+如果有多个Reader的时候，也需要做类似的工作。
+
+## Dining Philosophers Problem
+
+![image-20240123003622705](16-Semaphore.assets/DiningPhilosopher.png)
+
+使用c线程的方式模拟哲学家干饭的问题，每个哲学家都是讲究人，需要同时拿起左手和右手的叉子才能干饭。
+
+```c
+Semaphore forks[] = {1,1,1,1,1};
+
+void Philosopher(int id)
+{
+    for(int i = 0; i < 3; i++)
+    {
+        Think();    // assume that it's thread-safe
+        
+        SemaphoreWait(forks[id]);
+        SemaphoreWait(forks[(id + 1)%5]);
+        Eat();
+        SemaphoreSignal(forks[id]);
+        SemaphoreSignal(forks[(id + 1)%5]);
+        //
+    }
+    
+}
+```
+
+### Assumption
+
+1. Phi.0 思考了一会，想要干饭，拿起了左边的叉子fork0, 然后被换出了处理器，这就让fork0 变成了一个不可用的资源。
+2. Phi.1 思考了一会，想要干饭，拿起了左边的叉子fork1, 然后被换出了处理器，这就让fork1 变成了一个不可用的资源。
+3. Phi.2 思考了一会，想要干饭，拿起了左边的叉子fork2, 然后被换出了处理器，这就让fork2 变成了一个不可用的资源。
+4. Phi.3 思考了一会，想要干饭，拿起了左边的叉子fork3, 然后被换出了处理器，这就让fork3 变成了一个不可用的资源。
+5. Phi.4 思考了一会，想要干饭，拿起了左边的叉子fork4, 然后被换出了处理器，这就让fork4 变成了一个不可用的资源。
+
+这样会导致所有人都不可能拿到右手边的叉子了，5个线程中有互相的死锁，因为每个哲学家拥有它左边的哲学家需要的资源。
+
+### CS107's solution
+
+有多种方法来移除死锁的问题：
+
+- 可以交替让哲学家获得奇数/偶数下标的fork
+
+我们的做法是以最小的代码/逻辑改动为代价来移除死锁，同时仍然保证最大的线程数量，任何线程在其时间片内处理的工作量保持不变。
+
+首先，我们可以将这个地方变成critical region
+
+```c
+        
+        SemaphoreWait(forks[id]);
+        SemaphoreWait(forks[(id + 1)%5]);
+        Eat();
+        SemaphoreSignal(forks[id]);
+        SemaphoreSignal(forks[(id + 1)%5]);
+        //
+```
+
+这样的话至多有一个哲学家能干饭，其他哲学家只能干瞪眼，这与我们的初衷不符。
+
+通过瞪眼法观察得出，实际上在同一时间内最多也只能有两个哲学家同时干饭（资源限制，因为只有5个fork，如果3个哲学家同时干饭的话我们将需要6个fork):
+
+1. 我们可以阻止1个哲学家获得fork，即4个哲学家可以尝试去干饭
+2. 最终只有两个哲学家能够同时干饭
+
+```c
+Semaphore forks[] = {1,1,1,1,1};
+Semaphore numAllowedToEat(4);
+
+void Philosopher(int id)
+{
+    for(int i = 0; i < 3; i++)
+    {
+        Think();    // assume that it's thread-safe
+        
+        //  SW numAllowedToEat
+        SemaphoreWait(forks[id]);
+        SemaphoreWait(forks[(id + 1)%5]);
+        Eat();
+        SemaphoreSignal(forks[id]);
+        SemaphoreSignal(forks[(id + 1)%5]);
+        //  SS numAllowedToEat
+    }
+    
 }
 ```
