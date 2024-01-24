@@ -63,10 +63,9 @@
 ```
 
 ```shell
-  # ...
-        ldr     r2, [r3]  # load r2:100
-        sub     r2, r2, #1  # sub  r2:99
-        str     r2, [r3]  # store
+        ldr     r2, [r3]    ;load r2:100
+        sub     r2, r2, #1  ;sub  r2:99
+        str     r2, [r3]    ;store
 ```
 
 当被换出处理器时，所有寄存器的值,都会被拷贝到被换出的线程底部小的堆栈结构，当它重新得到处理器时，则为该线程恢复寄存器设置，这也就是所谓的`context-switch`
