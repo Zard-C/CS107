@@ -20,6 +20,7 @@ View this repo in [Github Pages](https://zard-c.github.io/CS107/)
 14. [More Assembly](Notes/14-MoreAssembly.md)
 15. [Tick Agent: Going to concurrency.](Notes/15-TickAgent.md)
 16. [Semaphore: More examples.](Notes/16-Semaphore.md)
+17. [Dining Philosophers: More examples.](Notes/17-DinnigPhilosopher.md)
 
 ## Resources
 
