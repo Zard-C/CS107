@@ -21,6 +21,7 @@ View this repo in [Github Pages](https://zard-c.github.io/CS107/)
 15. [Tick Agent: Going to concurrency.](Notes/15-TickAgent.md)
 16. [Semaphore: More examples.](Notes/16-Semaphore.md)
 17. [Dining Philosophers: More examples.](Notes/17-DinnigPhilosopher.md)
+18. [IceCream Store Simulation: The most complicated example.](Notes/18-IceCreamStore.md)
 
 ## Resources
 
