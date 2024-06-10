@@ -1,6 +1,12 @@
 # CS107: Programming Paradigms
 
-View this repo in [Github Pages](https://zard-c.github.io/CS107/)
+[CS107 - Programming Paradigms](https://see.stanford.edu/Course/CS107) from **Stanford Engineering Everywhere**
+
+Advanced memory management features of C and C++; the differences between imperative and object-oriented paradigms. The functional paradigm (using LISP) and concurrent programming (using C and C++). Brief survey of other modern languages such as Python, Objective C, and C#.
+
+Prerequisites: Programming and problem solving at the Programming Abstractions level. Prospective students should know a reasonable amount of C++. You should be comfortable with arrays, pointers, references, classes, methods, dynamic memory allocation, recursion, linked lists, binary search trees, hashing, iterators, and function pointers. You should be able to write well-decomposed, easy-to-understand code, and understand the value that comes with good variable names, short function and method implementations, and thoughtful, articulate comments.
+
+View notes on [Github Pages](https://zard-c.github.io/CS107/)
 
 ## Contents
 
@@ -22,15 +28,3 @@ View this repo in [Github Pages](https://zard-c.github.io/CS107/)
 16. [Semaphore: More examples.](Notes/16-Semaphore.md)
 17. [Dining Philosophers: More examples.](Notes/17-DinnigPhilosopher.md)
 18. [IceCream Store Simulation: The most complicated example.](Notes/18-IceCreamStore.md)
-
-## Resources
-
-[offical website](https://web.stanford.edu/class/cs107/)
-
-[bilibili video](https://www.bilibili.com/video/BV1Cx411S7HJ)
-
-## Notes
-
-If you are confused about the codes or notes, post an issue and I will reply as soon as possible.
-
-​Enjoy Learning Programming Paradigm!
