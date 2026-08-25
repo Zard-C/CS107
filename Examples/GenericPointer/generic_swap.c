@@ -1,7 +1,7 @@
-#include <memory.h>
-#include <stdint.h>
+#include <stddef.h>
 #include <stdio.h>
-void swap(void *, void *, ssize_t);
+#include <string.h>
+void swap(void *, void *, size_t);
 
 int main(void)
 {
@@ -23,10 +23,10 @@ int main(void)
  * 函数参数：
  * 			void* vp1 		元素a的地址
  * 			void* vp2 		元素b的地址
- * 			ssize_t size	元素的大小
+ * 			size_t size	元素的大小
  */
 
-void swap(void *vp1, void *vp2, ssize_t size)
+void swap(void *vp1, void *vp2, size_t size)
 {
     char buffer[size];
     // 轮转换位
