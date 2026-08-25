@@ -224,11 +224,11 @@ Q&A 为啥不include .cpp
 ```c
 #include <stdio.h>     // printf
 #include <stdlib.h>    // malloc, free 
-#include <assert.h>    // assert marco 
+#include <assert.h>    // assert macro
 
 int main(int argc, char** argv)
 {
-    void* meomory = malloc(400); 
+    void* memory = malloc(400);
     assert(memory != NULL);
     printf("Yay!\n"); 
     free(memory); 
