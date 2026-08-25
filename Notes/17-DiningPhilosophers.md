@@ -1,11 +1,11 @@
-# Dinning Philosopher
+# Dining Philosophers
 
 - [x] 尽可能用最小的改动来移除死锁，留给线程调度器更多弹性空间
 - [x] 不要使用busy-waiting, 这样会浪费处理器的时间片
 - [x] 使用信号量来实现多线程之间connection
-- [ ] Ice Cream Store Simulation
+- [x] Ice Cream Store Simulation
 
-## 1.Dinning Philosopher
+## 1. Dining Philosophers
 
 ### Problem
 
@@ -34,8 +34,8 @@ void Philosopher (int id)
 }
 ```
 
-- each semaphore represent the availbility of a resource
-- 1 consider that all 5 threads could be swapped out, then if they get the processer again, all 5 threads was blocked, experiencing mutual deadlock.
+- each semaphore represents the availability of a resource
+- 1 consider that all 5 threads could be swapped out, then if they get the processor again, all 5 threads are blocked, experiencing mutual deadlock.
 - one's right fork is another one's left fork. 
 
 ### Solution
@@ -81,12 +81,12 @@ Semaphore numAllowedToEat(4);   // why?
 // we could put a global integer here and said it equaled to 4
 // and check to see whether or not it was greater than 0
 // and if so, acted on it.
-// but it would saperate between test and action 
+// but it would separate between test and action
 // that was problematic in the ticket agents example.
 
 // we could also use a binary lock to protect this global integer
 // but what would happen?
-// you would right some while-loop, around and repeatly check 
+// you would write some while-loop, around and repeatedly check
 // to see whether or not the global variable went positive from 0.
 // that is called busy-waiting.
 
@@ -411,8 +411,8 @@ Q&A
 The largest example.
 
 - 10 Customers  [1-4 ice creams to order]
-- 1 Casher
+- 1 Cashier
 - 1 Manager thread.
 - 10 - 40 Clerks: customers are mean, they want the ice cream to be made in parallel .
 
-![Ice Cream Store](17-DinnigPhilosopher.assets/ice_cream_store_simulation.png)
+![Ice Cream Store](17-DiningPhilosophers.assets/ice_cream_store_simulation.png)

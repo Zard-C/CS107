@@ -2,7 +2,7 @@
 
 - Ticket Agent, part II
 - Ringbuffer: another way to use semaphore
-- The Dinnig Philosophers, part I
+- The Dining Philosophers, part I
 
 ## previous code （Ticket Agent)
 
@@ -17,7 +17,7 @@
        {
            break;    // 1⃣️
        }
-       (*numTicktesp)--;
+       (*numTicketsp)--;
        // critical region end
        SemaphoreSignal(lock);  
        // you may want to write some log
@@ -42,11 +42,11 @@
 
 ### semaphore
 
-`semaphore`: a basically, let's say a synchronized counter variable. (>=0)，要注意的是在cs107使用的系统中semaphore_wai t不允许将变量变成负数。这意味着，当计数变量变为0时，需要其他线程中调用semaphore_signal将变量++，这样才能通过semaphore_wait将变量减1而不会变成负数。
+`semaphore`: basically, a synchronized counter variable. (>=0)，要注意的是在cs107使用的系统中semaphore_wait不允许将变量变成负数。这意味着，当计数变量变为0时，需要其他线程中调用semaphore_signal将变量++，这样才能通过semaphore_wait将变量减1而不会变成负数。
 
 在实现上semaphore_wait是使用线程库
 
-"OK, I can't make any progress right now. It pulls itself off the processor, and records itself as something that's called blocked, and it puts it in this cue of threads are not allowed to make progess until some other threads signals a semaphore they're waiting on "
+"OK, I can't make any progress right now. It pulls itself off the processor, and records itself as something that's called blocked, and it puts it in this queue of threads that are not allowed to make progress until some other thread signals a semaphore they're waiting on."
 
 这段解释提到的是一个线程（一个进程中的执行单元）意识到它无法继续向前推进的情况（可能是因为缺乏所需的资源或者因为它正在等待另一个操作完成）。因此，它停止了执行（‘从处理器上移除自己’）并将其状态改变为‘阻塞’。阻塞意味着线程是不活动的，并且不能取得进展。这个线程随后被放置在一个阻塞线程的队列中。线程将保持在这种状态，直到满足特定条件 — 通常，这个条件是由另一个线程通过信号量发出的。信号量是一种同步机制，用于在并发系统中控制对共享资源的访问。当信号量被发出时，它表示阻塞线程所等待的资源或条件现在可用，因此阻塞线程可以离开阻塞队列并恢复执行。
 
@@ -59,7 +59,7 @@
 没有semaphore的情况时,假设此时numTickets变量为100.
 
 ```c
-(*numTicktesp)--; // 这一行代码会变成很多的汇编指令，简单一点解释就是load - sub -store
+(*numTicketsp)--; // 这一行代码会变成很多的汇编指令，简单一点解释就是load - sub -store
 ```
 
 ```shell
@@ -76,7 +76,7 @@
 
 Semaphore的作用是只允许一个线程通过，把全局的值放入局部寄存器中，在线程内部中进行递减，然后更新为全局的整数。
 
-如果我们将sempahore初始化为0，实际上会阻止所有线程进入临界区域，这就是一个死锁`dead-lock`
+如果我们将semaphore初始化为0，实际上会阻止所有线程进入临界区域，这就是一个死锁`dead-lock`
 
 如果我们将semaphore初始化为2，这基本上和初始化为10一样坏，因为我们不想让多个线程在同一时刻进入critical region.
 

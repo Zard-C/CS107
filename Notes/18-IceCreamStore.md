@@ -1,4 +1,4 @@
-# Let 18 Ice Cream Store Simulation
+# Lec 18 Ice Cream Store Simulation
 
 ![image-20240530213214062](18-IceCreamStore.assets/image-20240530213214062.png)
 
@@ -68,8 +68,8 @@ int main(int argc, char** argv)
 struct Inspection
 {
     bool passed;	// init as false
-    Semaphore requested;	// init as 0, clerk finish cone and then signal the semaphore to wake up manager.
-    Semaphore finished;		// init as 0, manager finish the inspection and then siganl the semaphore to wake up clerk.
+    Semaphore requested;	// init as 0, clerk finishes cone and then signals the semaphore to wake up manager.
+    Semaphore finished;		// init as 0, manager finishes the inspection and then signals the semaphore to wake up clerk.
 	Semaphore lock;			// init as 1, only one customer can get in the office.
 } inspection;
 
@@ -79,7 +79,7 @@ struct Line;	// see definitions in Cashier's code part
 ### Manager
 
 ``` c
-void Manager(int totoalConesNeeded)
+void Manager(int totalConesNeeded)
 {
     int numApproved = 0;
     int numInspected = 0; 
@@ -87,7 +87,7 @@ void Manager(int totoalConesNeeded)
     while(numApproved < totalConesNeeded)
     {
         SW(inspection.requested);
-        nunInspected++;
+        numInspected++;
         inspection.passed = RandomChance(0, 1);
         if(inspection.passed == true)
         {
@@ -132,14 +132,14 @@ Which means the door of the office would be opened, any other clerk could get in
 
 Why do we need `inspection.requested` and `inspection.finished`? 
 
-The manager is waiting on clerk's request, the clerk sends a request, and then wating on manager's inspection done. This is same with Ringbuffer problem.
+The manager is waiting on the clerk's request; the clerk sends a request, and then waits for the manager's inspection to finish. This is the same synchronization pattern as the Ringbuffer problem.
 
 ### Customer
 
 ```c
 void Customer(int numCones)
 {
-    BrowX();
+    Browse();
     // get numCones
     Semaphore clerksDone; // 0
     for(int i = 0; i < numCones; i++)
@@ -164,17 +164,17 @@ void Customer(int numCones)
 }
 ```
 
-Why do we just use a single loop?
+Why don't we just use a single loop?
 
-That would be sequential, we spawn a new thread, then wait for its done before we spawn another one.
+That would be sequential: we spawn a new thread, then wait for it to finish before we spawn another one.
 
-Why do we just use a semaphore and a shared intager
+Why don't we just use a semaphore and a shared integer?
 
 Back to the problem of `test` and `use`. The main reason why we are using semaphores or locks or those basically concurrency constructs is that we need to ensure **atomicity**: we want to decrement the value or increment its value in one operation or in several operations that are guaranteed to be done atomically. Between `operation` and `test`, it could be pulled off from the processor.
 
-In the second loop, which thread is being waiting?
+Which thread are we waiting for in the second loop?
 
-Don't care to know which one signaled as long as you know that somebody just singnaled you.
+We do not care which one signaled, as long as we know somebody signaled us.
 
 ### Cashier
 
