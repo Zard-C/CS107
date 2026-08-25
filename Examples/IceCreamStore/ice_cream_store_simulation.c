@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <unistd.h>
 
 /*
@@ -147,7 +148,7 @@ void *cashier(void *arg)
     return NULL;
 }
 
-void Initialize()
+void Initialize(void)
 {
     sem_init(&inspection.requested, 0, 0);
     sem_init(&inspection.finished, 0, 0);
@@ -155,6 +156,10 @@ void Initialize()
 
     sem_init(&line.requested, 0, 0);
     sem_init(&line.lock, 0, 1);
+    for (int i = 0; i < 10; i++)
+    {
+        sem_init(&line.customers[i], 0, 0);
+    }
     line.number = 0;
 }
 

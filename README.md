@@ -8,6 +8,64 @@ Prerequisites: Programming and problem solving at the Programming Abstractions l
 
 View notes on [Github Pages](https://zard-c.github.io/CS107/)
 
+## Docker development environment
+
+This repository includes a small Ubuntu-based Docker environment with `gcc`,
+`g++`, `make`, `cmake`, `gdb`, and `valgrind`.
+
+Build the image:
+
+```sh
+make docker-build
+```
+
+Start a shell with the repository mounted at `/workspace`:
+
+```sh
+make docker-shell
+```
+
+Inside the container, configure and build the C examples with CMake:
+
+```sh
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+cmake --build build --target examples --parallel
+```
+
+Or use the convenience Make target:
+
+```sh
+make examples
+```
+
+Example programs are written by CMake to `build/examples`:
+
+```sh
+./build/examples/generic-pointer/generic_swap
+./build/examples/ticket-agent/TicketAgent
+./build/examples/dinning
+./build/examples/ice_cream_store_simulation
+```
+
+For `gdb`, start the container with ptrace enabled:
+
+```sh
+make docker-debug-shell
+```
+
+Without `make`, the equivalent Docker commands are:
+
+```sh
+docker build -t cs107-dev .
+docker run --rm -it -e HOME=/root -v "$PWD":/workspace -w /workspace cs107-dev
+```
+
+You can also use Docker Compose:
+
+```sh
+docker compose run --rm cs107
+```
+
 ## Contents
 
 1. [Programming Paradigms](Notes/1-ProgrammingParadigms.md)

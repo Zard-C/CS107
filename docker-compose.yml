@@ -1,0 +1,13 @@
+services:
+  cs107:
+    build:
+      context: .
+    image: cs107-dev
+    working_dir: /workspace
+    user: root
+    volumes:
+      - .:/workspace
+    environment:
+      HOME: /root
+    stdin_open: true
+    tty: true
