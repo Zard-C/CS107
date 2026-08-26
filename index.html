@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A polished course portal for CS107: Programming Paradigms notes, examples, handouts, and Docker setup.">
+  <title>CS107: Programming Paradigms</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#lectures">Skip to lectures</a>
+
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="CS107 home">
+      <span class="brand-mark">107</span>
+      <span class="brand-text">CS107</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="#lectures">Lectures</a>
+      <a href="#toolchain">Toolchain</a>
+      <a href="#handouts">Handouts</a>
+      <a href="https://github.com/Zard-C/CS107">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-backdrop" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <p class="eyebrow">Stanford Engineering Everywhere notes</p>
+        <h1 id="hero-title">CS107: Programming Paradigms</h1>
+        <p class="hero-copy">
+          Study C, C++, memory, assembly, and concurrency through a focused set of notes,
+          diagrams, examples, and a reproducible Docker environment.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#lectures">Browse lectures</a>
+          <a class="button secondary" href="#toolchain">Set up Docker</a>
+        </div>
+        <div class="hero-stats" aria-label="Course highlights">
+          <span><strong>18</strong> lecture notes</span>
+          <span><strong>9</strong> buildable examples</span>
+          <span><strong>22</strong> handouts</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section course-map" aria-labelledby="map-title">
+      <div class="section-inner">
+        <div class="section-heading">
+          <p class="eyebrow">Course map</p>
+          <h2 id="map-title">A path from bytes to threads</h2>
+          <p>
+            The material moves from representation and pointers into generic data structures,
+            low-level machine behavior, and finally concurrent programs.
+          </p>
+        </div>
+
+        <div class="topic-grid">
+          <article class="topic-card">
+            <img src="Notes/lec4.assets/lec0401.png" alt="Generic pointer diagram">
+            <div>
+              <p class="topic-kicker">Lec 01-04</p>
+              <h3>Foundations</h3>
+              <p>C memory layout, pointers, casts, and generic pointer techniques.</p>
+            </div>
+          </article>
+          <article class="topic-card">
+            <img class="diagram-boost" src="Notes/lec8.assets/heap1.png" alt="Stack and heap diagram">
+            <div>
+              <p class="topic-kicker">Lec 05-08</p>
+              <h3>Data and Memory</h3>
+              <p>Generic stacks, allocation strategies, stack frames, and heap behavior.</p>
+            </div>
+          </article>
+          <article class="topic-card">
+            <div class="terminal-visual" aria-hidden="true">
+              <span>gcc -S main.c</span>
+              <span>ldr r2, [r3]</span>
+              <span>CALL &lt;printf&gt;</span>
+            </div>
+            <div>
+              <p class="topic-kicker">Lec 09-14</p>
+              <h3>Machine Model</h3>
+              <p>Assembly, activation records, preprocessing, compiling, and linking.</p>
+            </div>
+          </article>
+          <article class="topic-card">
+            <img src="Notes/18-IceCreamStore.assets/image-20240530213214062.png" alt="Ice cream store simulation diagram">
+            <div>
+              <p class="topic-kicker">Lec 15-18</p>
+              <h3>Concurrency</h3>
+              <p>Threads, semaphores, critical regions, and coordination patterns.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section lectures" id="lectures" aria-labelledby="lectures-title">
+      <div class="section-inner">
+        <div class="section-heading split">
+          <div>
+            <p class="eyebrow">Lecture notes</p>
+            <h2 id="lectures-title">Jump into the notes</h2>
+          </div>
+          <label class="search-label">
+            <span>Filter</span>
+            <input id="lecture-filter" type="search" placeholder="Search lectures" autocomplete="off">
+          </label>
+        </div>
+
+        <div class="lecture-grid" id="lecture-grid">
+          <a class="lecture-card" href="Notes/1-ProgrammingParadigms.html" data-title="programming paradigms c c++ scheme python">
+            <span class="lecture-number">01</span>
+            <strong>Programming Paradigms</strong>
+            <span>Procedure, object-oriented, functional, and concurrent styles.</span>
+          </a>
+          <a class="lecture-card" href="Notes/2-CProgramming.html" data-title="c programming binary bits char short floating point">
+            <span class="lecture-number">02</span>
+            <strong>C Programming</strong>
+            <span>Binary representation, integer behavior, floats, and casts.</span>
+          </a>
+          <a class="lecture-card" href="Notes/3-CPointer.html" data-title="c pointer arrays struct casts swap">
+            <span class="lecture-number">03</span>
+            <strong>C Pointer</strong>
+            <span>Pointers, arrays, structs, offsets, and pointer-based swap.</span>
+          </a>
+          <a class="lecture-card" href="Notes/4-GenericPointer.html" data-title="generic pointer void star lsearch bsearch qsort">
+            <span class="lecture-number">04</span>
+            <strong>Generic Pointer</strong>
+            <span>Void pointers, callbacks, generic swap, search, and sorting.</span>
+          </a>
+          <a class="lecture-card" href="Notes/5-7-GenericDataStructure.html" data-title="generic data structure stack rotate qsort memory">
+            <span class="lecture-number">05-07</span>
+            <strong>Generic Data Structure</strong>
+            <span>Build a reusable stack and reason through generic operations.</span>
+          </a>
+          <a class="lecture-card" href="Notes/8-StackAndHeap.html" data-title="stack heap malloc free realloc memory management">
+            <span class="lecture-number">08</span>
+            <strong>Stack and Heap</strong>
+            <span>Allocation internals, stack frames, heap managers, and fragments.</span>
+          </a>
+          <a class="lecture-card" href="Notes/9-Assembly.html" data-title="assembly computer architecture registers pointers">
+            <span class="lecture-number">09</span>
+            <strong>Assembly Language</strong>
+            <span>Instructions, registers, branches, arrays, and low-level casts.</span>
+          </a>
+          <a class="lecture-card" href="Notes/10-ActivationRecord.html" data-title="activation record stack frame return value recursion">
+            <span class="lecture-number">10</span>
+            <strong>Activation Records</strong>
+            <span>Function frames, saved PC, return values, and recursion.</span>
+          </a>
+          <a class="lecture-card" href="Notes/11-CPP.html" data-title="c++ reference pointer class struct this static">
+            <span class="lecture-number">11</span>
+            <strong>C++ References and Classes</strong>
+            <span>References, classes, methods, this pointers, and static members.</span>
+          </a>
+          <a class="lecture-card" href="Notes/12-Preprocessing.html" data-title="preprocessing define macro include assert">
+            <span class="lecture-number">12</span>
+            <strong>Preprocessing</strong>
+            <span>Macros, include rules, header guards, and preprocessing stages.</span>
+          </a>
+          <a class="lecture-card" href="Notes/13-CompilingAndLinking.html" data-title="compiling linking gcc linker runtime crash buffer overflow">
+            <span class="lecture-number">13</span>
+            <strong>Compiling and Linking</strong>
+            <span>Object files, libraries, runtime crashes, and buffer overflow.</span>
+          </a>
+          <a class="lecture-card" href="Notes/14-MoreAssembly.html" data-title="more assembly printf struct process virtual address">
+            <span class="lecture-number">14</span>
+            <strong>More Assembly</strong>
+            <span>Printf, structs, process switching, and virtual address spaces.</span>
+          </a>
+          <a class="lecture-card" href="Notes/15-TicketAgent.html" data-title="ticket agent thread scheduling semaphore critical region">
+            <span class="lecture-number">15</span>
+            <strong>Ticket Agent</strong>
+            <span>Threads, scheduling, shared resources, semaphores, and deadlock.</span>
+          </a>
+          <a class="lecture-card" href="Notes/16-Semaphore.html" data-title="semaphore ringbuffer dining philosophers race condition">
+            <span class="lecture-number">16</span>
+            <strong>Semaphore Patterns</strong>
+            <span>Semaphores as locks, ring buffers, and coordination primitives.</span>
+          </a>
+          <a class="lecture-card" href="Notes/17-DiningPhilosophers.html" data-title="dining philosophers deadlock file downloading busy waiting">
+            <span class="lecture-number">17</span>
+            <strong>Dining Philosophers</strong>
+            <span>Deadlock avoidance, busy waiting, and multi-threaded downloads.</span>
+          </a>
+          <a class="lecture-card" href="Notes/18-IceCreamStore.html" data-title="ice cream store simulation manager clerk cashier customer semaphore">
+            <span class="lecture-number">18</span>
+            <strong>Ice Cream Store Simulation</strong>
+            <span>A larger concurrency simulation with managers, clerks, and cashiers.</span>
+          </a>
+        </div>
+        <p class="empty-state" id="empty-state" hidden>No matching lecture notes.</p>
+      </div>
+    </section>
+
+    <section class="section toolchain" id="toolchain" aria-labelledby="toolchain-title">
+      <div class="section-inner toolchain-inner">
+        <div class="section-heading">
+          <p class="eyebrow">Local lab</p>
+          <h2 id="toolchain-title">Reproducible Docker setup</h2>
+          <p>
+            The repository includes a Linux-based environment for compiling examples,
+            debugging with gdb, and checking memory behavior with valgrind.
+          </p>
+        </div>
+
+        <div class="command-grid">
+          <figure class="command-panel">
+            <figcaption>Build and enter the lab</figcaption>
+            <pre><code>make docker-build
+make docker-shell</code></pre>
+          </figure>
+          <figure class="command-panel">
+            <figcaption>Compile examples with CMake</figcaption>
+            <pre><code>make examples
+./build/examples/generic-pointer/generic_swap</code></pre>
+          </figure>
+          <figure class="command-panel">
+            <figcaption>Debug-friendly shell</figcaption>
+            <pre><code>make docker-debug-shell
+gdb ./build/examples/dinning</code></pre>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section resources" id="handouts" aria-labelledby="handouts-title">
+      <div class="section-inner">
+        <div class="section-heading split">
+          <div>
+            <p class="eyebrow">Reference material</p>
+            <h2 id="handouts-title">Handouts and examples</h2>
+          </div>
+          <a class="text-link" href="Handouts/">Open handouts folder</a>
+        </div>
+
+        <div class="resource-columns">
+          <div>
+            <h3>Selected handouts</h3>
+            <ul class="resource-list">
+              <li><a href="Handouts/01Course-Information.pdf">Course Information</a></li>
+              <li><a href="Handouts/02-CS107-Course-Syllabus.pdf">Course Syllabus</a></li>
+              <li><a href="Handouts/07-Arrays-The-Full-Story.pdf">Arrays: The Full Story</a></li>
+              <li><a href="Handouts/12-Computer-Architecture.pdf">Computer Architecture</a></li>
+              <li><a href="Handouts/22-Thread-Package-Docs.pdf">Thread Package Docs</a></li>
+              <li><a href="Handouts/26-More-Concurrency.pdf">More Concurrency</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Example programs</h3>
+            <ul class="resource-list">
+              <li><a href="Examples/GenericPointer/generic_swap.c">Generic swap</a></li>
+              <li><a href="Examples/GenericPointer/generic_lsearch.c">Generic linear search</a></li>
+              <li><a href="Examples/TicketAgent/src/ticketAgent.c">Ticket Agent</a></li>
+              <li><a href="Examples/TicketAgent/src/ticketAgentSemaphore.c">Ticket Agent with semaphore</a></li>
+              <li><a href="Examples/DinningPhilosohper/dinning.c">Dining Philosophers</a></li>
+              <li><a href="Examples/IceCreamStore/ice_cream_store_simulation.c">Ice Cream Store Simulation</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      CS107 notes from
+      <a href="https://see.stanford.edu/Course/CS107">Stanford Engineering Everywhere</a>.
+    </p>
+    <a href="#hero-title">Back to top</a>
+  </footer>
+
+  <script src="assets/site.js"></script>
+</body>
+</html>
