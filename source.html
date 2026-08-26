@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="UTF-8 source viewer for CS107 example programs.">
+  <title>CS107 Source Viewer</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="source-page">
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="CS107 home">
+      <span class="brand-mark">107</span>
+      <span class="brand-text">CS107</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="./#lectures">Lectures</a>
+      <a href="./#toolchain">Toolchain</a>
+      <a href="./#handouts">Handouts</a>
+      <a href="https://github.com/Zard-C/CS107">GitHub</a>
+    </nav>
+  </header>
+
+  <main class="source-main">
+    <section class="source-hero" aria-labelledby="source-title">
+      <p class="eyebrow">Example source</p>
+      <h1 id="source-title">Loading source...</h1>
+      <p id="source-path" class="source-path"></p>
+      <div class="source-actions">
+        <a class="button primary" href="./#handouts">Back to examples</a>
+        <a class="button ghost" id="github-link" hidden>View on GitHub</a>
+      </div>
+    </section>
+
+    <section class="source-shell" aria-label="Source code">
+      <ol class="code-lines" id="code-lines"></ol>
+      <p class="source-message" id="source-message">Loading...</p>
+    </section>
+  </main>
+
+  <script src="assets/source.js"></script>
+</body>
+</html>
